@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load markdown_extras %}
+{% block content %}
+
+<body class="bg-[#CCC8C0] font-sans leading-normal tracking-normal"> 
+
+	<!-- <nav id="header" class="fixed w-full z-10 top-0">
+
+		<div id="progress" class="h-1 z-20 top-0" style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+		<div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+
+			<div class="pl-4">
+				<a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="#">
+					Minimal Blog
+				</a>
+			</div>
+
+			<div class="block lg:hidden pr-4">
+				<button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-green-500 appearance-none focus:outline-none">
+					<svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+						<title>Menu</title>
+						<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+					</svg>
+				</button>
+			</div>
+
+			<div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20" id="nav-content">
+				<ul class="list-reset lg:flex justify-end flex-1 items-center">
+					<li class="mr-3">
+						<a class="inline-block py-2 px-4 text-gray-900 font-bold no-underline" href="#">Active</a>
+					</li>
+					<li class="mr-3">
+						<a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#">link</a>
+					</li>
+					<li class="mr-3">
+						<a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-2 px-4" href="#">link</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav> -->
+
+	<!--Container-->
+	<div class="container w-full md:max-w-3xl mx-auto pt-20">
+
+		<div class="w-full px-4 md:px-6 text-xl text-black leading-normal" style="font-family:Georgia,serif;">
+
+			<!--Title-->
+			<div class="font-sans">
+						<h1 class="font-bold font-sans break-normal text-gray-900 pt-6 pb-2 text-3xl md:text-4xl">
+						{{ post.title }}</h1>
+						<p class="text-sm md:text-base font-normal text-gray-600">
+						{{ obj.timestamp}}</p>
+						<img class="h-50 rounded w-full object-cover object-center mb-6" src="{{ post.thumbnail.url }}" alt="content">
+			</div>
+
+   <!--Like and Viewes-->
+<div class="py-4 border-y border-[#1B4D3E] mb-8 flex items-center gap-6">
+    {% if user.is_authenticated %}
+    <form method="POST" action="{% url 'like_post' post.slug %}" class="inline">
+        {% csrf_token %}
+        <button type="submit"
+            class="group flex items-center gap-2 px-5 py-2 bg-[#1B4D3E] text-white text-xs font-bold uppercase tracking-widest rounded-sm hover:bg-[#143a2f] transition-all shadow-md">
+            <svg class="w-4 h-4 text-red-400 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+            </svg>
+            Like ({{ post.total_likes }})
+        </button>
+    </form>
+    
+    <div class="flex items-center gap-2 px-3 py-1.5 bg-[#D1F2EB] text-[#1B4D3E] border border-[#A3E4D7] rounded-full text-xs font-bold shadow-sm">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+        </svg>
+        {{ post.views }} VIEWS
+    </div>
+
+    {% else %}
+    <div class="bg-gray-200/50 border-l-4 border-[#1B4D3E] px-4 py-2">
+        <p class="text-[11px] font-bold text-gray-600 uppercase tracking-wider italic">
+            Like etmək üçün sistemə giriş edin
+        </p>
+    </div>
+    {% endif %}
+</div>
+
+
+			<!--Post Content-->
+
+			<div class="py-6">
+			{{ post.content | markdown | safe }}
+			</div>
+
+
+	
+
+
+			<!--/ Post Content-->
+
+		</div>
+
+		
+
+		<!--Divider-->
+		<hr class="border-b-2 border-green-900 mb-8 mx-4">
+
+		
+
+
+
+
+
+
+		<!--Author-->
+		<div class="flex w-full items-center font-sans px-4 py-12">
+			<img class="w-10 h-10 rounded-full mr-4" src="{{ post.author.profile_picture.url }}">
+			<div class="flex-1 px-2">
+				<p class="text-base font-bold text-base md:text-xl leading-none mb-2">
+				{{ post.author }}</p>
+		
+			</div>
+			
+		</div>
+		<!--/Author-->
+
+		<!--Divider-->
+		<hr class="border-b-2 border-green-900 mb-8 mx-4">
+
+	<!--Comment-->	
+<div class="mt-12 px-4 py-8 bg-[#E5E2DA] rounded-lg border border-[#D1CEC5] shadow-inner">
+    <h3 class="text-2xl font-bold text-[#1A2E35] mb-8 uppercase tracking-tighter border-b-2 border-[#1B4D3E] pb-2 inline-block">
+        Comments
+    </h3>
+
+    <div class="space-y-6 mb-10">
+        {% for comment in comments %}
+        <div class="bg-white/50 p-4 rounded-md border-l-4 border-[#1B4D3E] shadow-sm">
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-[#1B4D3E] font-bold text-sm uppercase tracking-wide">
+                    {{ comment.user.username }}
+                </strong>
+                <span class="text-[10px] text-gray-500 font-mono bg-gray-200 px-2 py-0.5 rounded">
+                    {{ comment.created_at|date:"d.m.Y H:i" }}
+                </span>
+            </div>
+            <p class="text-[#1A2E35] text-base leading-relaxed">
+                {{ comment.content }}
+            </p>
+        </div>
+        {% empty %}
+        <div class="py-10 text-center border-2 border-dashed border-[#1B4D3E]/20 rounded-lg">
+            <p class="text-gray-500 italic">Hələ heç bir rəy bildirilməyib.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-[#1B4D3E]/10">
+        {% if user.is_authenticated %}
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block text-[10px] font-bold text-[#5D6532] uppercase tracking-widest mb-2 ml-1">New Message</label>
+                <textarea name="content" required placeholder="Sistemə rəyinizi daxil edin..." 
+                    class="w-full bg-[#E5E2DA] border-2 border-[#D1CEC5] rounded-md p-4 text-sm focus:outline-none focus:border-[#1B4D3E] transition-all placeholder:text-gray-400" 
+                    rows="4"></textarea>
+            </div>
+            <button type="submit" 
+                class="inline-flex items-center justify-center px-8 py-3 bg-[#1B4D3E] text-white rounded-sm font-bold uppercase tracking-[0.2em] text-[11px] hover:bg-[#143a2f] shadow-lg transition-all active:transform active:scale-95">
+                Göndər / Send
+            </button>
+        </form>
+        {% else %}
+        <div class="bg-white/30 p-6 rounded-lg border border-[#1B4D3E] text-center">
+            <p class="text-sm font-bold text-[#1A2E35] uppercase tracking-wide">
+                Şərh yazmaq üçün <a href="{% url 'login' %}" class="text-green-800 underline">login</a> olun.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+	</div>
+	<!--/container-->
+
+	
+
+	<script>
+		/* Progress bar */
+		//Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+		var h = document.documentElement,
+			b = document.body,
+			st = 'scrollTop',
+			sh = 'scrollHeight',
+			progress = document.querySelector('#progress'),
+			scroll;
+		var scrollpos = window.scrollY;
+		var header = document.getElementById("header");
+		var navcontent = document.getElementById("nav-content");
+
+		document.addEventListener('scroll', function() {
+
+			/*Refresh scroll % width*/
+			scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+			progress.style.setProperty('--scroll', scroll + '%');
+
+			/*Apply classes for slide in bar*/
+			scrollpos = window.scrollY;
+
+			if (scrollpos > 10) {
+				header.classList.add("bg-white");
+				header.classList.add("shadow");
+				navcontent.classList.remove("bg-gray-100");
+				navcontent.classList.add("bg-white");
+			} else {
+				header.classList.remove("bg-white");
+				header.classList.remove("shadow");
+				navcontent.classList.remove("bg-white");
+				navcontent.classList.add("bg-gray-100");
+
+			}
+
+		});
+
+
+		//Javascript to toggle the menu
+		document.getElementById('nav-toggle').onclick = function() {
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+	</script>
+	
+
+<!-- </body> -->
+
+{% endblock content %}

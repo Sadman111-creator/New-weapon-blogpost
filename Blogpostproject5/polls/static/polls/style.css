@@ -1,0 +1,62 @@
+/* Bütün səhifənin arxa fonu - Şəkildəki bej rəng */
+body {
+    background-color: #CCC8C0; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1A2E35;
+    margin: 0;
+    padding: 0;
+}
+
+/* Siyahı elementləri (li) */
+li {
+    color: #1B4D3E; /* Hərbi yaşıl */
+    font-weight: 600;
+    list-style-type: square; /* Daha ciddi görünüş üçün kvadrat nöqtələr */
+}
+
+/* Siyahı daxilindəki linklər */
+li a {
+    color: #1A2E35;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+li a:hover {
+    color: #5D6532; /* Üzərinə gələndə açıq hərbi yaşıl */
+}
+
+/* Düymə - Tactical Button Design */
+.button {
+    background-color: #1B4D3E; /* Əsas tünd yaşıl */
+    border: 1px solid #143a2f;
+    color: #ffffff;
+    padding: 12px 28px;
+    text-align: center;
+    text-transform: uppercase; /* Hərbi sənəd stili üçün böyük hərflər */
+    letter-spacing: 2px; /* Hərflər arası məsafə */
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border-radius: 2px; /* Kəskin künclər daha hərbi görünür */
+}
+
+/* Düymə Hover Effekti */
+.button:hover {
+    background-color: #5D6532;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+    transform: translateY(-1px);
+}
+
+/* Sizin istədiyiniz kölgəli hover (button2 üçün) */
+.button2:hover {
+    box-shadow: 0 8px 16px 0 rgba(27, 77, 62, 0.6);
+}
+
+/* Kartların daxilindəki mətnlər üçün əlavə */
+p {
+    line-height: 1.6;
+    color: #4A4A4A;
+}

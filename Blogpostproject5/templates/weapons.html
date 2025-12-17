@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mx-auto p-6 min-h-screen">
+    <div class="mb-4">
+        <h1 class="text-3xl font-bold text-[#1A2E35] tracking-tight uppercase">
+            WEAPONS INVENTORY
+        </h1>
+      
+        
+    </div>
+
+    <div class="overflow-hidden rounded-lg shadow-sm mt-6">
+        <table class="min-w-full bg-[#E5E2DA]">
+            <thead class="bg-[#1B4D3E] text-white">
+                <tr>
+                    <th class="py-4 px-6 text-left text-xs font-bold uppercase tracking-widest border-r border-[#163a2f]/20">
+                        Weapon Name
+                    </th>
+                    <th class="py-4 px-6 text-left text-xs font-bold uppercase tracking-widest border-r border-[#163a2f]/20">
+                        Bullet Type
+                    </th>
+                    <th class="py-4 px-6 text-right text-xs font-bold uppercase tracking-widest">
+                        Production Date
+                    </th>
+                </tr>
+            </thead>
+            
+            <tbody class="text-[#1A2E35]">
+                {% for weapon in weapons %}
+                <tr class="border-b border-[#D1CEC5] hover:bg-[#DEDAD0] transition-colors">
+                    <td class="py-5 px-6 font-bold text-sm">
+                        {% if weapon.slug %}
+                            <a href="{% url 'post' weapon.slug %}" class="hover:underline">
+                                {{ weapon.name }}
+                            </a>
+                        {% else %}
+                            {{ weapon.name }}
+                        {% endif %}
+                    </td>
+
+                    <td class="py-5 px-6 text-sm">
+                        <span class="bg-[#D1F2EB] text-[#1B4D3E] text-[11px] font-bold px-4 py-1.5 rounded-full border border-[#A3E4D7]">
+                            {{ weapon.type_bullet|upper }}
+                        </span>
+                    </td>
+
+                    <td class="py-5 px-6 text-right text-sm font-medium">
+                        {{ weapon.date|date:"d/m/Y" }}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="py-10 text-center text-gray-500 italic">
+                        No weapons found in the database.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
