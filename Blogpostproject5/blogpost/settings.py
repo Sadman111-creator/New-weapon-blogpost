@@ -1,3 +1,4 @@
+import dj_database_url
 from importlib.resources import path
 from pathlib import Path
 
@@ -14,9 +15,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-h2c$s&1u$c1g(4nwq4&x8_%p@n1dp8agxno^5!r$4m!4so&6(e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,10 +69,11 @@ WSGI_APPLICATION = 'blogpost.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        # Bu hissə Render-dəki DATABASE_URL mühit dəyişənini avtomatik oxuyacaq
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
+    )
 }
 
 
@@ -109,13 +112,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Local-da (kompüterinizdə) olan static qovluğu
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    # '/var/www/static/',
 ]
-MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn")
+# Canlı serverdə (Render-də) bütün faylların toplanacağı yer
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles") # "static_cdn" yerinə "staticfiles" daha standartdır
+
+# WhiteNoise-un faylları sıxışdırıb yaddaşda saxlaması üçün (MÜTLƏQ ƏLAVƏ EDİN)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media_cdn")
 
 # Default primary key field type
